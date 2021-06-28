@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sulmar.EFCore.DbEFRepositories\Sulmar.EFCore.DbEFRepositories.csproj" />
+    <ProjectReference Include="..\Sulmar.EFCore.Fakers\Sulmar.EFCore.Fakers.csproj" />
     <ProjectReference Include="..\Sulmar.EFCore.IRepositories\Sulmar.EFCore.IRepositories.csproj" />
     <ProjectReference Include="..\Sulmar.EFCore.Models\Sulmar.EFCore.Models.csproj" />
   </ItemGroup>

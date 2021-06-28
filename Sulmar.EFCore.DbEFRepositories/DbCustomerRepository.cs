@@ -1,40 +1,24 @@
 ﻿using Sulmar.EFCore.IRepositories;
 using Sulmar.EFCore.Models;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Sulmar.EFCore.DbEFRepositories
 {
-    public class DbCustomerRepository : ICustomerRepository
+
+    public class DbCustomerRepository : DbEntityRepository<Customer>, ICustomerRepository
     {
-        public void Add(Customer entity)
+        public DbCustomerRepository(ShopContext context) : base(context)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Customer Get(string pesel)
         {
-            throw new NotImplementedException();
+            
+            return entities.SingleOrDefault(c => c.Pesel == pesel);
         }
 
-        public IEnumerable<Customer> Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Customer entity)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }
