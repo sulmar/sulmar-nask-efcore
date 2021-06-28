@@ -9,6 +9,7 @@ namespace Sulmar.EFCore.IRepositories
         IEnumerable<TEntity> Get();
         TEntity Get(int id);
         void Add(TEntity entity);
+        void Add(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
         void Remove(int id);
     }

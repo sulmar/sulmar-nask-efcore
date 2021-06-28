@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sulmar.EFCore.DbEFRepositor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sulmar.EFCore.ConsoleClient", "Sulmar.EFCore.ConsoleClient\Sulmar.EFCore.ConsoleClient.csproj", "{D74444E7-9F5A-41C5-AD3B-472DCF9FEAF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sulmar.EFCore.Fakers", "Sulmar.EFCore.Fakers\Sulmar.EFCore.Fakers.csproj", "{816A1C03-18E7-4BEA-9D48-DE25955650D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D74444E7-9F5A-41C5-AD3B-472DCF9FEAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D74444E7-9F5A-41C5-AD3B-472DCF9FEAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D74444E7-9F5A-41C5-AD3B-472DCF9FEAF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816A1C03-18E7-4BEA-9D48-DE25955650D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816A1C03-18E7-4BEA-9D48-DE25955650D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816A1C03-18E7-4BEA-9D48-DE25955650D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816A1C03-18E7-4BEA-9D48-DE25955650D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
