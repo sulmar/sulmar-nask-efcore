@@ -23,7 +23,8 @@ namespace Sulmar.EFCore.ConsoleClient
 
         private static void AddCustomersTest()
         {
-            var context = Create();
+            ShopContextFactory shopContextFactory = new ShopContextFactory();
+            var context = shopContextFactory.CreateDbContext(null);
 
             var customerFaker = new CustomerFaker();
 
@@ -37,6 +38,7 @@ namespace Sulmar.EFCore.ConsoleClient
 
         private static ShopContext Create()
         {
+            
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NaskShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=Shop";
 
             // dotnet add package Microsoft.EntityFrameworkCore.SqlServer
@@ -53,9 +55,9 @@ namespace Sulmar.EFCore.ConsoleClient
         {
             var context = Create();
 
-            context.Database.EnsureCreated();
+           // context.Database.EnsureCreated();
 
-            // context.Database.Migrate();
+             context.Database.Migrate();
         }
     }
 }

@@ -34,14 +34,14 @@ namespace Sulmar.EFCore.DbEFRepositories
             // Custom convention
 
             // https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.conventions?view=efcore-5.0
-            var properties = modelBuilder.Properties<string>()
-                      .Where(p => p.Name.Contains("Name"));
+            //var properties = modelBuilder.Properties<string>()
+            //          .Where(p => p.Name.Contains("Name"));
 
-            foreach (var property in properties)
-            {
-                property.SetMaxLength(100);
-                property.IsNullable = false;                
-            }
+            //foreach (var property in properties)
+            //{
+            //    property.SetMaxLength(100);
+            //    property.IsNullable = false;                
+            //}
 
             // Fluent Api
 
