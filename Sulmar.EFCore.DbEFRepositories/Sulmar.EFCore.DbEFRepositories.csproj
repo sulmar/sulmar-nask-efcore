@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sulmar.EFCore.IRepositories\Sulmar.EFCore.IRepositories.csproj" />
+  </ItemGroup>
+
 </Project>
