@@ -32,6 +32,10 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
             builder.HasIndex(p => p.Pesel);
 
             // builder.HasData()            
+
+            builder.Property(p => p.NIP)
+                .HasMaxLength(10)
+                .IsUnicode(false);
         }
     }
 }

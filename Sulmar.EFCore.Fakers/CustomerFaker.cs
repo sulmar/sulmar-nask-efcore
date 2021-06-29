@@ -26,6 +26,7 @@ namespace Sulmar.EFCore.Fakers
 
             Ignore(p => p.Avatar);
             Ignore(p => p.ModifiedOn);
+            Ignore(p => p.NIP);
 
             // dotnet add package Sulmar.Bogus.Extensions.Poland
             RuleFor(p => p.Pesel, f => f.Person.Pesel());

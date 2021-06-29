@@ -2,25 +2,23 @@
 
 namespace Sulmar.EFCore.DbEFRepositories.Migrations
 {
-    public partial class AddSizeToProduct : Migration
+    public partial class AddNIPToCustomer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Size",
-                schema: "dbo",
-                table: "Items",
+                name: "NIP",
+                table: "Customers",
+                unicode: false,
+                maxLength: 10,
                 nullable: true);
-
-            migrationBuilder.Sql("UPDATE dbo.Items SET Size = 'XXL' WHERE Size is null");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Size",
-                schema: "dbo",
-                table: "Items");
+                name: "NIP",
+                table: "Customers");
         }
     }
 }
