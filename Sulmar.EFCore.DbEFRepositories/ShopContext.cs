@@ -28,6 +28,9 @@ namespace Sulmar.EFCore.DbEFRepositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.changetrackingstrategy?view=efcore-1.1&viewFallbackFrom=efcore-3.1
+            // modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangedNotifications);
+
             base.OnModelCreating(modelBuilder);
 
 
@@ -51,6 +54,34 @@ namespace Sulmar.EFCore.DbEFRepositories
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+        }
+
+        public override int SaveChanges()
+        {
+            // Added
+            var added = this.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added)
+                .Select(e=>e.Entity)
+                .OfType<BaseEntity>();
+
+            foreach (var entity in added)
+            {
+                entity.CreatedOn = DateTime.Now;
+            }
+
+
+            // Modified
+            var modified = this.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Modified)
+               .Select(e => e.Entity)
+               .OfType<BaseEntity>();
+
+            foreach (var entity in modified)
+            {
+                entity.ModifiedOn = DateTime.Now;
+            }
+
+            return base.SaveChanges();
         }
 
 

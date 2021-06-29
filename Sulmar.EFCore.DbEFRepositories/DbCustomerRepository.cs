@@ -1,6 +1,8 @@
-﻿using Sulmar.EFCore.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Sulmar.EFCore.IRepositories;
 using Sulmar.EFCore.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Sulmar.EFCore.DbEFRepositories
@@ -19,6 +21,28 @@ namespace Sulmar.EFCore.DbEFRepositories
             return entities.SingleOrDefault(c => c.Pesel == pesel);
         }
 
-      
+        public override void Remove(int id)
+        {
+            // Customer customer = Get(id);
+
+            Customer customer = new Customer { Id = id };
+            Trace.WriteLine(_context.Entry(customer).State);
+
+            customer.IsRemoved = true;
+
+            Trace.WriteLine(_context.Entry(customer).State);
+
+            // _context.Entry(customer).State = EntityState.Modified;
+
+            _context.Entry(customer).Property(p => p.IsRemoved).IsModified = true;
+
+            Trace.WriteLine(_context.Entry(customer).State);
+
+            _context.SaveChanges();
+
+            Trace.WriteLine(_context.Entry(customer).State);
+
+        }
+
     }
 }

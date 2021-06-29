@@ -2,14 +2,15 @@
 using Sulmar.EFCore.IRepositories;
 using Sulmar.EFCore.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Sulmar.EFCore.DbEFRepositories
 {
     public class DbEntityRepository<TEntity> : IEntityRepository<TEntity>
-        where TEntity : BaseEntity
+        where TEntity : BaseEntity, new()
     {
-        private readonly ShopContext _context;
+        protected readonly ShopContext _context;
 
         public DbEntityRepository(ShopContext context)
         {
@@ -18,10 +19,17 @@ namespace Sulmar.EFCore.DbEFRepositories
 
         protected DbSet<TEntity> entities => _context.Set<TEntity>();
 
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
+            Trace.WriteLine(_context.Entry(entity).State);
+
             entities.Add(entity);
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
             _context.SaveChanges();
+
+            Trace.WriteLine(_context.Entry(entity).State);
         }
 
         public void Add(IEnumerable<TEntity> entities)
@@ -30,26 +38,59 @@ namespace Sulmar.EFCore.DbEFRepositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<TEntity> Get()
+        public virtual IEnumerable<TEntity> Get()
         {
             return entities.ToList();
         }
 
-        public TEntity Get(int id)
+        public virtual TEntity Get(int id)
         {
-            return entities.Find(id);
+            TEntity entity = entities.Find(id);
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
+            return entity;
         }
 
-        public void Remove(int id)
+        public virtual void Remove(int id)
         {
-            entities.Remove(Get(id));
+            // var entity = Get(id);
+
+            var entity = new TEntity() { Id = id };
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
+            // entities.Remove(entity);
+
+            entities.Attach(entity);
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
+            _context.Entry(entity).State = EntityState.Deleted;
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
             _context.SaveChanges();
+
+            Trace.WriteLine(_context.Entry(entity).State);
         }
 
         public void Update(TEntity entity)
         {
-            entities.Update(entity);
+            Trace.WriteLine(_context.Entry(entity).State);
+
+            //  entities.Update(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+
+            Trace.WriteLine(_context.Entry(entity).State);
+
+            var IsModifiedOnModified = _context.Entry(entity).Property(p => p.ModifiedOn).IsModified;
+
             _context.SaveChanges();
+
+            Trace.WriteLine(_context.Entry(entity).State);
         }
     }
 }

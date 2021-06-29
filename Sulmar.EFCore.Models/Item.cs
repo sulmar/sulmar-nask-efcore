@@ -2,8 +2,25 @@
 {
     public abstract class Item : BaseEntity
     {
+        
+
         public string Name { get; set; }
-        public decimal UnitPrice { get; set; }
+
+
+        private decimal unitPrice;
+        public decimal UnitPrice
+        {
+            get => unitPrice; 
+            set
+            {
+                if (unitPrice != value)
+                {
+                    unitPrice = value;
+
+                    OnPropertyChanged();
+                }
+            }
+        }
     }
 }
 
