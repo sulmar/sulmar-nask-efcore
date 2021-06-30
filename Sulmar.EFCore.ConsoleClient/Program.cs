@@ -69,6 +69,7 @@ namespace Sulmar.EFCore.ConsoleClient
         {
             var context = Create();
 
+            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.tracked?view=efcore-3.1
             context.ChangeTracker.Tracked += ChangeTracker_Tracked;
 
             ICustomerRepository customerRepository = new DbCustomerRepository(context);
