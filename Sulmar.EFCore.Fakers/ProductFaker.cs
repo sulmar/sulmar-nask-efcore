@@ -21,6 +21,8 @@ namespace Sulmar.EFCore.Fakers
             RuleFor(p => p.Weight, f => f.Random.Float(1, 1000));
             RuleFor(p => p.Size, f => f.PickRandom(sizes));
             Ignore(p => p.ModifiedOn);
+
+            Ignore(p => p.Parameters);
         }
     }
 }

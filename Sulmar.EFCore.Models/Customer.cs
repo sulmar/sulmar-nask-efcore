@@ -16,6 +16,8 @@ namespace Sulmar.EFCore.Models
         public Address ShipAddress { get; set; }
         public Coordinate Location { get; set; } // -> string
         public bool IsRemoved { get; set; }
+
+        // LastUpdated
     }
 
     public enum CustomerType

@@ -19,6 +19,14 @@
     <Compile Remove="Migrations\20210630065122_AddInvoiceAddressToCustomer.Designer.cs" />
     <Compile Remove="Migrations\20210630065211_AddShipAddressToCustomer.cs" />
     <Compile Remove="Migrations\20210630065211_AddShipAddressToCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20210630081015_AddLastUpdatedToCustomer.cs" />
+    <Compile Remove="Migrations\20210630081015_AddLastUpdatedToCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20210630081135_Test.cs" />
+    <Compile Remove="Migrations\20210630081135_Test.Designer.cs" />
+    <Compile Remove="Migrations\20210630081255_Test.cs" />
+    <Compile Remove="Migrations\20210630081255_Test.Designer.cs" />
+    <Compile Remove="Migrations\20210630081329_AddLastUpdatedToCustomer.cs" />
+    <Compile Remove="Migrations\20210630081329_AddLastUpdatedToCustomer.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

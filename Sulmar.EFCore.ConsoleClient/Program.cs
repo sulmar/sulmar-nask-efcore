@@ -6,6 +6,8 @@ using Sulmar.EFCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using static Microsoft.EntityFrameworkCore.EF;
 
 namespace Sulmar.EFCore.ConsoleClient
 {
@@ -52,10 +54,38 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // AddCustomersTest();
 
-            GetCustomerTest();
+            // GetCustomerTest();
 
 
+            // ShadowPropertyUpdateTest();
 
+            ShadowPropertyQueryTest();
+
+        }
+
+        private static void ShadowPropertyQueryTest()
+        {
+            var context = Create();
+
+            var customers = context.Customers.OrderByDescending(p => Property<DateTime?>(p, "LastUpdated")).ToList();
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine(context.Entry(customer).Property("LastUpdated").CurrentValue);
+            }
+        }
+
+        private static void ShadowPropertyUpdateTest()
+        {
+            var context = Create();
+
+            ICustomerRepository customerRepository = new DbCustomerRepository(context);
+
+            var customer = customerRepository.Get(102);
+
+            context.Entry(customer).Property("LastUpdated").CurrentValue = DateTime.UtcNow;
+
+            context.SaveChanges();
         }
 
         private static void GetCustomerTest()

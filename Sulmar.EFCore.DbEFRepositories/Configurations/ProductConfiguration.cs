@@ -26,8 +26,7 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
 
             builder.Property(p => p.Parameters)
                 .HasJsonValueConversion();
-
-            builder.Ignore(p => p.Parameters);
+            
         }
     }
 

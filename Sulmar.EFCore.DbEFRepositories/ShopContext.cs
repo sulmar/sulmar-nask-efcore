@@ -81,6 +81,16 @@ namespace Sulmar.EFCore.DbEFRepositories
                 entity.ModifiedOn = DateTime.Now;
             }
 
+
+            // Shadow Property
+            var updated = this.ChangeTracker.Entries()
+              .Where(e => e.State == EntityState.Modified);
+
+            foreach (var entity in updated)
+            {
+                entity.Property("LastUpdated").CurrentValue = DateTime.UtcNow;
+            }
+
             return base.SaveChanges();
         }
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sulmar.EFCore.Models;
+using System;
 
 namespace Sulmar.EFCore.DbEFRepositories.Configurations
 {
@@ -52,6 +53,9 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
             // Konwerter za pomocą metody rozszerzającej
             builder.Property(p => p.Location)
                 .HasGeoHashValueConversion();
+
+            // Shadow Property
+            builder.Property<DateTime?>("LastUpdated");
         }
     }
 
