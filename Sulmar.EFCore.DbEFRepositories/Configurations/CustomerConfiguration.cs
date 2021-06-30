@@ -61,6 +61,9 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
             builder.Property(p => p.Version)
                 .IsRowVersion()
                 .IsConcurrencyToken();
+
+            // Filtr globalny
+            builder.HasQueryFilter(p => !p.IsRemoved);
         }
     }
 

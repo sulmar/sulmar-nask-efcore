@@ -54,6 +54,7 @@ namespace Sulmar.EFCore.DbEFRepositories
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+
         }
 
         public override int SaveChanges()

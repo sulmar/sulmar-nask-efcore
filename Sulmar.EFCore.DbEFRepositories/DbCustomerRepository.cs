@@ -17,8 +17,8 @@ namespace Sulmar.EFCore.DbEFRepositories
 
         public Customer Get(string pesel)
         {
-            
-            return entities.SingleOrDefault(c => c.Pesel == pesel);
+            // wyłączenie filtru globalnego
+            return entities.IgnoreQueryFilters().SingleOrDefault(c => c.Pesel == pesel);
         }
 
         public override void Remove(int id)

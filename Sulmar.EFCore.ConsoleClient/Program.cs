@@ -71,8 +71,26 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // ConcurrencyTokenTest();
 
-            ConcurrencyTokenTest2();
+            // ConcurrencyTokenTest2();
 
+            GetCustomersTest();
+
+        }
+
+        private static void GetCustomersTest()
+        {
+            var context = Create();
+
+            ICustomerRepository customerRepository = new DbCustomerRepository(context);
+
+            var customers = customerRepository.Get();
+
+            if (customers.Any(p=>p.IsRemoved))
+            {
+
+            }
+
+            var customer = customerRepository.Get("80063097764");
         }
 
         private static void ConcurrencyTokenTest2()
