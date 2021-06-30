@@ -15,7 +15,7 @@ namespace Sulmar.EFCore.DbEFRepositories
     {
         public ShopContext(DbContextOptions options) : base(options)
         {
-
+            
         }
 
         public DbSet<Customer> Customers { get; set; }

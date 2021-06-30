@@ -59,8 +59,29 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // ShadowPropertyUpdateTest();
 
-            ShadowPropertyQueryTest();
+            // ShadowPropertyQueryTest();
 
+            MaterializedTest();
+
+        }
+
+        private static void MaterializedTest()
+        {
+            var context = Create();
+
+            context.ChangeTracker.Tracked += ChangeTracker_Tracked;
+
+            ICustomerRepository customerRepository = new DbCustomerRepository(context);
+
+            var customers = customerRepository.Get();
+        }
+
+        private static void ChangeTracker_Tracked(object sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityTrackedEventArgs e)
+        {
+            if (e.FromQuery && e.Entry.Entity is Customer customer)
+            {
+                customer.FirstName += "!";
+            }
         }
 
         private static void ShadowPropertyQueryTest()
