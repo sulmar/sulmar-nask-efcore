@@ -18,6 +18,8 @@ namespace Sulmar.EFCore.Models
         public decimal Amount { get; set; }
         public bool IsRemoved { get; set; }
 
+        public byte[] Version { get; set; }
+
         // LastUpdated
     }
 

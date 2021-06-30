@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.EF;
 
@@ -68,8 +69,57 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // TransactionDistributedTest();
 
-            ConcurrencyTokenTest();
+            // ConcurrencyTokenTest();
 
+            ConcurrencyTokenTest2();
+
+        }
+
+        private static void ConcurrencyTokenTest2()
+        {
+            var context1 = Create();
+            var context2 = Create();
+
+            var customer1 = context1.Customers.Find(10);
+            customer1.FirstName = "John";
+            customer1.LastName = "Smith";
+            customer1.Amount += 1000;
+
+            var customer2 = context2.Customers.Find(10);
+            customer1.FirstName = "Ann";
+            customer1.LastName = "Novak";
+            customer1.Amount += 50;
+            customer1.CustomerType = CustomerType.Company;
+
+            context2.SaveChanges();
+
+            // ...
+
+            bool isSaved = false;
+
+            while (!isSaved)
+            {
+
+                try
+                {
+                    context1.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    Console.WriteLine("Cena została w międzyczasie zmodyfikowana.");
+
+                    var entity = e.Entries.First();
+
+                    entity.Reload();
+
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                }
+
+                context1.SaveChanges();
+
+                isSaved = true;
+            }
         }
 
         private static void ConcurrencyTokenTest()

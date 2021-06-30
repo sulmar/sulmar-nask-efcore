@@ -56,6 +56,11 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
 
             // Shadow Property
             builder.Property<DateTime?>("LastUpdated");
+
+
+            builder.Property(p => p.Version)
+                .IsRowVersion()
+                .IsConcurrencyToken();
         }
     }
 
