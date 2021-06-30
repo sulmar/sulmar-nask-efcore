@@ -15,6 +15,7 @@ namespace Sulmar.EFCore.Models
         public Address InvoiceAddress { get; set; }
         public Address ShipAddress { get; set; }
         public Coordinate Location { get; set; } // -> string
+        public decimal Amount { get; set; }
         public bool IsRemoved { get; set; }
 
         // LastUpdated

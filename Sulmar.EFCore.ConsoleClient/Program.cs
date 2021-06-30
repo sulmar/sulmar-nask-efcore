@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Transactions;
 using static Microsoft.EntityFrameworkCore.EF;
 
 namespace Sulmar.EFCore.ConsoleClient
@@ -61,7 +62,93 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // ShadowPropertyQueryTest();
 
-            MaterializedTest();
+            // MaterializedTest();
+
+            // TransactionNativeTest();
+
+            TransactionDistributedTest();
+
+        }
+        // https://docs.microsoft.com/pl-pl/dotnet/api/system.transactions.transactionscope?view=net-5.0
+        private static void TransactionDistributedTest()
+        {
+            decimal amount = 100;
+
+            var senderContext = Create();
+            var recipientContext = Create();
+
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                Console.WriteLine("Rozpoczęto transakcję...");
+
+                try
+                {
+                    var sender = senderContext.Customers.Find(106);
+                    sender.Amount -= amount;
+
+                    // throw new Exception();
+
+                    var recipient = recipientContext.Customers.Find(118);
+                    recipient.Amount += amount;
+
+                    senderContext.SaveChanges();
+                    recipientContext.SaveChanges();
+
+                    transaction.Complete(); // To Commit
+
+                    Console.WriteLine("Zatwierdzono transakcję.");
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("Wycofano transakcję.");
+                }
+            } // <-- commit / rollback zależnie od flagi Complete
+        }
+
+        private static void TransactionNativeTest()
+        {
+            decimal amount = 100;
+
+            var context = Create();
+
+
+            // Poziomy izolacji
+            // https://docs.microsoft.com/en-us/sql/connect/jdbc/understanding-isolation-levels?view=sql-server-ver15#remarks
+
+            using (var transaction = context.Database.BeginTransaction()) // BEGIN TRAN
+            {
+                Console.WriteLine("Rozpoczęto transakcję...");
+
+                try
+                {
+                    var sender = context.Customers.Find(106);
+                    sender.Amount -= amount;
+
+                    context.SaveChanges();
+
+                    // throw new Exception();
+
+                    var recipient = context.Customers.Find(118);
+                    recipient.Amount += amount;
+
+                    context.SaveChanges();
+
+                    transaction.Commit(); // COMMIT
+
+                    Console.WriteLine("Zatwierdzono transakcję.");
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback(); // ROLLBACK
+
+                    Console.WriteLine("Wycofano transakcję.");
+                }
+            }
+
+
+
+
 
         }
 
@@ -118,7 +205,7 @@ namespace Sulmar.EFCore.ConsoleClient
 
             var customer = customerRepository.Get(102);
 
-            Console.WriteLine($"{customer.Location.Latitude} : {customer.Location.Longitude}" );
+            Console.WriteLine($"{customer.Location.Latitude} : {customer.Location.Longitude}");
         }
 
         private static void ExpliciteLoadingTest()
@@ -372,7 +459,7 @@ namespace Sulmar.EFCore.ConsoleClient
 
         private static ShopContext Create()
         {
-            
+
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NaskShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=Shop";
 
             // dotnet add package Microsoft.EntityFrameworkCore.SqlServer
@@ -389,9 +476,9 @@ namespace Sulmar.EFCore.ConsoleClient
         {
             var context = Create();
 
-           // context.Database.EnsureCreated();
+            // context.Database.EnsureCreated();
 
-             context.Database.Migrate();
+            context.Database.Migrate();
         }
     }
 }
