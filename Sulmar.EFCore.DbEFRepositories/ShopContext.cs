@@ -84,7 +84,8 @@ namespace Sulmar.EFCore.DbEFRepositories
 
             // Shadow Property
             var updated = this.ChangeTracker.Entries()
-              .Where(e => e.State == EntityState.Modified);
+              .Where(e => e.State == EntityState.Modified)
+              .Where(e=>e.Entity.GetType() == typeof(Customer));
 
             foreach (var entity in updated)
             {

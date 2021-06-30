@@ -66,9 +66,47 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // TransactionNativeTest();
 
-            TransactionDistributedTest();
+            // TransactionDistributedTest();
+
+            ConcurrencyTokenTest();
 
         }
+
+        private static void ConcurrencyTokenTest()
+        {
+            
+            var context1 = Create();
+            var context2 = Create();
+
+            var product1 = context1.Products.Find(10);
+            product1.UnitPrice = 150;
+            product1.Color = "Black";
+
+            var product2 = context2.Products.Find(10);
+            product2.UnitPrice = 50;
+            product2.Color = "Red";
+
+            context2.SaveChanges();
+
+            // ...
+
+            try
+            {
+                context1.SaveChanges();
+            }
+            catch(DbUpdateConcurrencyException e)
+            {
+                Console.WriteLine("Cena została w międzyczasie zmodyfikowana.");
+
+                var entity = e.Entries.First();
+
+                entity.Reload();
+
+            }
+
+
+        }
+
         // https://docs.microsoft.com/pl-pl/dotnet/api/system.transactions.transactionscope?view=net-5.0
         private static void TransactionDistributedTest()
         {

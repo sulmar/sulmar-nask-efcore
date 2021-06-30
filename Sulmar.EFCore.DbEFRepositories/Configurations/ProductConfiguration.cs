@@ -26,7 +26,12 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
 
             builder.Property(p => p.Parameters)
                 .HasJsonValueConversion();
-            
+
+            builder.Property(p => p.UnitPrice)
+                .IsConcurrencyToken();
+
+            builder.Property(p => p.Color)
+                .IsConcurrencyToken();
         }
     }
 
