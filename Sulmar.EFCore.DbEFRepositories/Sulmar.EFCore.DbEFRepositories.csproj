@@ -9,6 +9,16 @@
     <Compile Remove="Migrations\20210629071600_MistakeMigration.Designer.cs" />
     <Compile Remove="Migrations\20210629071823_MistakeMigration.cs" />
     <Compile Remove="Migrations\20210629071823_MistakeMigration.Designer.cs" />
+    <Compile Remove="Migrations\20210630064552_AddInvoiceAddressToCustomer.cs" />
+    <Compile Remove="Migrations\20210630064552_AddInvoiceAddressToCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20210630064734_Test.cs" />
+    <Compile Remove="Migrations\20210630064734_Test.Designer.cs" />
+    <Compile Remove="Migrations\20210630065000_Test.cs" />
+    <Compile Remove="Migrations\20210630065000_Test.Designer.cs" />
+    <Compile Remove="Migrations\20210630065122_AddInvoiceAddressToCustomer.cs" />
+    <Compile Remove="Migrations\20210630065122_AddInvoiceAddressToCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20210630065211_AddShipAddressToCustomer.cs" />
+    <Compile Remove="Migrations\20210630065211_AddShipAddressToCustomer.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

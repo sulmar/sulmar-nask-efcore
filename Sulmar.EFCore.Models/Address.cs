@@ -1,5 +1,6 @@
 ﻿namespace Sulmar.EFCore.Models
 {
+    // Complex Type
     public class Address : Base
     {
         public string Street { get; set; }

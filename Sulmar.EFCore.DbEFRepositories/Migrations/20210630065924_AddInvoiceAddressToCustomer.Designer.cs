@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sulmar.EFCore.DbEFRepositories;
 
 namespace Sulmar.EFCore.DbEFRepositories.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20210630065924_AddInvoiceAddressToCustomer")]
+    partial class AddInvoiceAddressToCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,33 +196,6 @@ namespace Sulmar.EFCore.DbEFRepositories.Migrations
             modelBuilder.Entity("Sulmar.EFCore.Models.Customer", b =>
                 {
                     b.OwnsOne("Sulmar.EFCore.Models.Address", "InvoiceAddress", b1 =>
-                        {
-                            b1.Property<int>("CustomerId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ZipCode")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-                        });
-
-                    b.OwnsOne("Sulmar.EFCore.Models.Address", "ShipAddress", b1 =>
                         {
                             b1.Property<int>("CustomerId")
                                 .ValueGeneratedOnAdd()

@@ -36,6 +36,10 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
             builder.Property(p => p.NIP)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+
+            builder.OwnsOne(p => p.InvoiceAddress);
+
+             builder.OwnsOne(p => p.ShipAddress);
         }
     }
 }

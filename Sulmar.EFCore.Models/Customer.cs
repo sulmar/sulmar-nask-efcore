@@ -12,8 +12,9 @@ namespace Sulmar.EFCore.Models
         public CustomerType CustomerType { get; set; }
         public byte[] Avatar { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        //public Address InvoiceAddress { get; set; }
-        //public Address ShipAddress { get; set; }
+        public Address InvoiceAddress { get; set; }
+        public Address ShipAddress { get; set; }
+        public Coordinate Location { get; set; } // -> string
         public bool IsRemoved { get; set; }
     }
 
