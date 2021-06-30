@@ -9,7 +9,7 @@ namespace Sulmar.EFCore.Fakers
     // dotnet add package Bogus
     public class CustomerFaker : Faker<Customer>
     {
-        public CustomerFaker()
+        public CustomerFaker(Faker<Coordinate> coordinateFaker, Faker<Address> addressFaker)
         {
             StrictMode(true);
 
@@ -30,6 +30,32 @@ namespace Sulmar.EFCore.Fakers
 
             // dotnet add package Sulmar.Bogus.Extensions.Poland
             RuleFor(p => p.Pesel, f => f.Person.Pesel());
+
+            RuleFor(p => p.InvoiceAddress, f => addressFaker.Generate());
+            RuleFor(p => p.ShipAddress, f => addressFaker.Generate());
+            RuleFor(p => p.Location, f => coordinateFaker.Generate());
+
+            
+        }
+    }
+
+    public class AddressFaker : Faker<Address>
+    {
+        public AddressFaker()
+        {
+            RuleFor(p => p.City, f => f.Address.City());
+            RuleFor(p => p.Country, f => f.Address.Country());
+            RuleFor(p => p.Street, f => f.Address.StreetAddress());
+            RuleFor(p => p.ZipCode, f => f.Address.ZipCode());
+        }
+    }
+
+    public class CoordinateFaker : Faker<Coordinate>
+    {
+        public CoordinateFaker()
+        {
+            RuleFor(p => p.Latitude, f => f.Address.Latitude());
+            RuleFor(p => p.Longitude, f => f.Address.Longitude());
         }
     }
 }

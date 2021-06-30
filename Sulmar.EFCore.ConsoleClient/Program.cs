@@ -48,9 +48,25 @@ namespace Sulmar.EFCore.ConsoleClient
             // GetILazyLoaderTest();
 
 
-            ExpliciteLoadingTest();
-             
+            // ExpliciteLoadingTest();
 
+            // AddCustomersTest();
+
+            GetCustomerTest();
+
+
+
+        }
+
+        private static void GetCustomerTest()
+        {
+            var context = Create();
+
+            ICustomerRepository customerRepository = new DbCustomerRepository(context);
+
+            var customer = customerRepository.Get(102);
+
+            Console.WriteLine($"{customer.Location.Latitude} : {customer.Location.Longitude}" );
         }
 
         private static void ExpliciteLoadingTest()
@@ -253,7 +269,7 @@ namespace Sulmar.EFCore.ConsoleClient
 
             ICustomerRepository customerRepository = new DbCustomerRepository(context);
 
-            Customer customer = new CustomerFaker().Generate();
+            Customer customer = new CustomerFaker(new CoordinateFaker(), new AddressFaker()).Generate();
 
 
             customerRepository.Add(customer);
@@ -292,7 +308,7 @@ namespace Sulmar.EFCore.ConsoleClient
             ShopContextFactory shopContextFactory = new ShopContextFactory();
             var context = shopContextFactory.CreateDbContext(null);
 
-            var customerFaker = new CustomerFaker();
+            var customerFaker = new CustomerFaker(new CoordinateFaker(), new AddressFaker());
 
             ICustomerRepository customerRepository = new DbCustomerRepository(context);
 

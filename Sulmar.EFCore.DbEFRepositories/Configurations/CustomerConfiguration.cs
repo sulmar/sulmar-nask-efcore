@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sulmar.EFCore.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sulmar.EFCore.DbEFRepositories.Configurations
 {
-    
-   
+
+
 
     class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
@@ -40,6 +37,45 @@ namespace Sulmar.EFCore.DbEFRepositories.Configurations
             builder.OwnsOne(p => p.InvoiceAddress);
 
              builder.OwnsOne(p => p.ShipAddress);
+
+            // Konwerter za pomocą wyrażeń
+            //builder.Property(p => p.Location)
+            //    .HasConversion(
+            //        v => v.ToGeoHash(),
+            //        v => new Coordinate(v));
+
+
+            // Konwerter za pomocą klasy
+            //builder.Property(p => p.Location)
+            //    .HasConversion(new GeoHashConverter());
+
+            // Konwerter za pomocą metody rozszerzającej
+            builder.Property(p => p.Location)
+                .HasGeoHashValueConversion();
+        }
+    }
+
+
+    // Wbudowane konwertery
+    // https://docs.microsoft.com/pl-pl/ef/core/modeling/value-conversions?tabs=data-annotations#built-in-converters
+
+    public class GeoHashConverter : ValueConverter<Coordinate, string>
+    {
+        public GeoHashConverter()
+            : base(v => v.ToGeoHash(), 
+                  v=>new Coordinate(v))
+        {
+
+        }
+    }
+
+    public static class GeoHashExtensions
+    {
+        public static PropertyBuilder HasGeoHashValueConversion(this PropertyBuilder propertyBuilder)
+        {
+            propertyBuilder.HasConversion(new GeoHashConverter());
+
+            return propertyBuilder;
         }
     }
 }
