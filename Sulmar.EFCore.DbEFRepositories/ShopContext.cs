@@ -9,6 +9,17 @@ using System.Linq;
 namespace Sulmar.EFCore.DbEFRepositories
 {
 
+    /*
+     -- funkcja skalarna 
+     CREATE OR ALTER FUNCTION dbo.CountCustomers(@isRemoved bit)
+     RETURNS int
+      AS
+      BEGIN
+	    RETURN (SELECT count(*) from dbo.Customers WHERE IsRemoved = @isRemoved)
+      END
+
+    */
+
     // dotnet package Microsoft.EntityFrameworkCore
     // dotnet package Microsoft.EntityFrameworkCore.Relational
     public class ShopContext : DbContext
@@ -54,8 +65,15 @@ namespace Sulmar.EFCore.DbEFRepositories
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            // https://docs.microsoft.com/pl-pl/ef/core/querying/user-defined-function-mapping
+            modelBuilder.HasDbFunction(
+                    typeof(ShopContext).GetMethod(nameof(CountCustomers), new[] { typeof(bool) })).HasName("CountCustomers");
+                   
+
 
         }
+
+        public int CountCustomers(bool isRemoved) => throw new NotSupportedException();
 
         public override int SaveChanges()
         {
