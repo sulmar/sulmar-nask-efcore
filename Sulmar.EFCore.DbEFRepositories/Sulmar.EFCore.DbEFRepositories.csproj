@@ -27,6 +27,16 @@
     <Compile Remove="Migrations\20210630081255_Test.Designer.cs" />
     <Compile Remove="Migrations\20210630081329_AddLastUpdatedToCustomer.cs" />
     <Compile Remove="Migrations\20210630081329_AddLastUpdatedToCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20210630142542_AddCountCustomers.cs" />
+    <Compile Remove="Migrations\20210630142542_AddCountCustomers.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="script1.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="script1.sql" />
   </ItemGroup>
 
   <ItemGroup>

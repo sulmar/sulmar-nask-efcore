@@ -35,7 +35,9 @@ namespace Sulmar.EFCore.Fakers
             RuleFor(p => p.ShipAddress, f => addressFaker.Generate());
             RuleFor(p => p.Location, f => coordinateFaker.Generate());
 
-            
+
+            RuleFor(p => p.Amount, f => Math.Round(f.Random.Decimal(0, 1000), 0));
+            Ignore(p => p.Version);
         }
     }
 

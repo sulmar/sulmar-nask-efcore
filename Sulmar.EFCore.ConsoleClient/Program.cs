@@ -17,11 +17,14 @@ namespace Sulmar.EFCore.ConsoleClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello EF Core 3.1!");
 
-            CreateDatabaseTest();
+            Setup();
 
-            // AddCustomersTest();
+            GetProductsTest();
+
+            GetCustomersTest();
+
 
             // UpdateCustomerTest();
 
@@ -33,7 +36,7 @@ namespace Sulmar.EFCore.ConsoleClient
 
             //  AddServicesTest();
 
-            // GetProductsTest();
+
 
             //   GetOrderTest();
 
@@ -77,8 +80,42 @@ namespace Sulmar.EFCore.ConsoleClient
 
             // GetServicesTest();
 
-            GetFunctionTest();
+            // GetFunctionTest();
 
+        }
+
+        private static void Setup()
+        {
+            var context = Create();
+
+            Console.WriteLine("Connecting to database...");
+
+            if (context.Database.CanConnect())
+            {
+                Console.WriteLine("Connected.");
+            }
+            else
+            {
+                Console.WriteLine("Creating database...");
+
+                CreateDatabaseTest();
+
+                Console.WriteLine("Created.");
+
+                SeedData();
+            }
+        }
+
+        private static void SeedData()
+        {
+            Console.WriteLine("Preparing data...");
+
+            
+            AddCustomersTest();
+
+            Console.WriteLine("Customers...");
+            AddProductsTest();
+            AddServicesTest();
         }
 
         private static void GetFunctionTest()
@@ -88,10 +125,6 @@ namespace Sulmar.EFCore.ConsoleClient
             var query = context.Customers
                 .Where(p => context.CountCustomers(p.IsRemoved) > 0)
                 .ToList();
-                
-
-
-            
         }
 
         private static void GetServicesTest()
@@ -110,13 +143,22 @@ namespace Sulmar.EFCore.ConsoleClient
             ICustomerRepository customerRepository = new DbCustomerRepository(context);
 
             var customers = customerRepository.Get();
+            Display(customers);
 
-            if (customers.Any(p=>p.IsRemoved))
+            if (customers.Any(p => p.IsRemoved))
             {
 
             }
 
             var customer = customerRepository.Get("80063097764");
+        }
+
+        private static void Display(IEnumerable<Customer> customers)
+        {
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"{customer.FullName}");
+            }
         }
 
         private static void ConcurrencyTokenTest2()
@@ -442,6 +484,16 @@ namespace Sulmar.EFCore.ConsoleClient
             IProductRepository productRepository = new DbProductRepository(context);
 
             var products = productRepository.Get();
+
+            Display(products);
+        }
+
+        private static void Display(IEnumerable<Product> products)
+        {
+            foreach (var product in products)
+            {
+                Console.WriteLine($"{product.Name} {product.BarCode}");
+            }
         }
 
         private static void TrackGraphTest()
@@ -517,21 +569,28 @@ namespace Sulmar.EFCore.ConsoleClient
 
         private static void AddProductsTest()
         {
+            Console.WriteLine("Generating products...");
+
             var products = new ProductFaker().Generate(20);
 
             var context = Create();
             IProductRepository productRepository = new DbProductRepository(context);
             productRepository.Add(products);
+
+            Console.WriteLine($"Added {products.Count} products.");
         }
 
         private static void AddServicesTest()
         {
+            Console.WriteLine("Generating services...");
+
             var services = new ServiceFaker().Generate(10);
 
             var context = Create();
             IServiceRepository serviceRepository = new DbServiceRepository(context);
             serviceRepository.Add(services);
 
+            Console.WriteLine($"Added {services.Count} services.");
         }
 
         private static void AddCustomerTest()
@@ -583,9 +642,13 @@ namespace Sulmar.EFCore.ConsoleClient
 
             ICustomerRepository customerRepository = new DbCustomerRepository(context);
 
+            Console.WriteLine("Generating customers...");
+
             var customers = customerFaker.Generate(100);
 
             customerRepository.Add(customers);
+
+            Console.WriteLine($"Added {customers.Count} customers.");
 
         }
 
